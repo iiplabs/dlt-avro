@@ -1,4 +1,4 @@
-package com.iiplabs.dltavro.rest;
+package com.iiplabs.dltavro;
 
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
