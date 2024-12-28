@@ -120,3 +120,6 @@ target
 .vscode
 
 *.iml
+
+# Application generated files
+**/dltavro/generated/*
