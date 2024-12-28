@@ -31,10 +31,12 @@ public class ImportServiceTest {
 
     @Test
     void testImportCsv() throws Exception {
+        long expectedCsvRecords = 3;
+
         MockMultipartFile file = new MockMultipartFile("file","test_customers.csv",
                 MediaType.APPLICATION_OCTET_STREAM_VALUE, Files.readAllBytes(Paths
                 .get(getClass().getClassLoader().getResource("test_customers.csv").toURI())));
-        assertEquals(0, importService.importCsv(file.getInputStream()));
+        assertEquals(expectedCsvRecords, importService.importCsv(file.getInputStream()));
     }
 
 }
