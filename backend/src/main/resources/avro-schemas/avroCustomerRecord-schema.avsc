@@ -1,0 +1,27 @@
+{
+  "type":"record",
+  "name":"AvroCustomerRecord",
+  "namespace":"com.iiplabs.dltavro.generated",
+  "fields":[
+    {
+      "name":"sinNumber",
+      "type":"string"
+    },
+    {
+      "name":"firstName",
+      "type":"string"
+    },
+    {
+      "name":"lastName",
+      "type":"string"
+    },
+    {
+      "name":"phone",
+      "type":"string"
+    },
+    {
+      "name":"email",
+      "type":"string"
+    }
+  ]
+}

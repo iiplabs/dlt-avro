@@ -1,0 +1,15 @@
+services:
+  backend:
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+      args:
+        BUILD_PROFILE: ${BUILD_PROFILE}
+    image: dltavro-backend:latest
+    container_name: dltavro-backend
+    restart: unless-stopped
+    ports:
+      - '${BE_SERVER_PORT}:${BE_SERVER_PORT}'
+    environment:
+      SPRING_PROFILES_ACTIVE: ${BUILD_PROFILE}
+      BE_SERVER_PORT: ${BE_SERVER_PORT}
