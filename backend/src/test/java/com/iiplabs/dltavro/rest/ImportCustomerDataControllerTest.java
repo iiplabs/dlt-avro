@@ -53,7 +53,7 @@ public class ImportCustomerDataControllerTest {
                 MediaType.APPLICATION_OCTET_STREAM_VALUE, Files.readAllBytes(Paths
                 .get(getClass().getClassLoader().getResource("test_customers.csv").toURI())));
 
-        long expectedGoodCsvRecords = 2;
+        long expectedGoodCsvRecords = 3;
 
         mockMvc.perform(multipart("/api/v1/import-customer-data").file(file))
                 .andExpect(MockMvcResultMatchers.status().isOk())

@@ -2,13 +2,8 @@ package com.iiplabs.dltavro.services;
 
 import com.iiplabs.dltavro.model.dto.BaseCsvRecordDto;
 import com.iiplabs.dltavro.model.dto.IntakeCustomerRecordDto;
-import com.opencsv.bean.ColumnPositionMappingStrategy;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.MappingStrategy;
-import com.opencsv.exceptions.CsvBeanIntrospectionException;
-import com.opencsv.exceptions.CsvChainedException;
-import com.opencsv.exceptions.CsvFieldAssignmentException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +23,8 @@ import java.util.stream.Collectors;
 
 @Service("importService")
 public class ImportService implements IImportService {
+
+    private final static String PROFILE_DEFAULT = "default";
 
     private Validator validator;
 
@@ -42,11 +38,15 @@ public class ImportService implements IImportService {
             CsvToBean<BaseCsvRecordDto> rawCustomerRecords = new CsvToBeanBuilder<BaseCsvRecordDto>(fileReader)
                     .withType(IntakeCustomerRecordDto.class)
                     .withIgnoreEmptyLine(true)
+                    .withOrderedResults(true)
+                    .withProfile(PROFILE_DEFAULT)
                     .withSeparator('|')
-                    // .withMappingStrategy(createMappingStrategy())
                     .withThrowExceptions(false)
+                    // .withExceptionHandler()
                     .build();
 
+            // .parse() or .stream() is speed optimized
+            // to optimize by memory use .iterator()
             Collection<BaseCsvRecordDto> customerRecords = rawCustomerRecords.parse();
 
             UUID batchId = UUID.randomUUID();
@@ -70,19 +70,6 @@ public class ImportService implements IImportService {
 
             return groupedByValidStatusMap.get(Boolean.TRUE).size();
         }
-    }
-
-    private <T> MappingStrategy<T> createMappingStrategy() {
-        MappingStrategy<T> mappingStrategy = new ColumnPositionMappingStrategy<T>() {
-
-            @Override
-            public T populateNewBean(String[] line) throws CsvBeanIntrospectionException, CsvFieldAssignmentException, CsvChainedException {
-                Arrays.setAll(line, (i) -> line[i].trim());
-                return super.populateNewBean(line);
-            }
-
-        };
-        return mappingStrategy;
     }
 
 }

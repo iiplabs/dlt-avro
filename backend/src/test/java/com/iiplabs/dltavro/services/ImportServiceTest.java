@@ -31,7 +31,7 @@ public class ImportServiceTest {
 
     @Test
     void testImportCsv() throws Exception {
-        long expectedGoodCsvRecords = 2;
+        long expectedGoodCsvRecords = 3;
 
         MockMultipartFile file = new MockMultipartFile("file","test_customers.csv",
                 MediaType.APPLICATION_OCTET_STREAM_VALUE, Files.readAllBytes(Paths
