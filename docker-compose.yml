@@ -1,5 +1,5 @@
 services:
-  backend:
+  dlt-backend:
     build:
       context: ./backend/
       dockerfile: Dockerfile
@@ -13,3 +13,18 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: ${BUILD_PROFILE}
       BE_SERVER_PORT: ${BE_SERVER_PORT}
+      CLOUDSDK_CONFIG: ${CLOUDSDK_CONFIG}
+      GOOGLE_APPLICATION_CREDENTIALS: ${GOOGLE_APPLICATION_CREDENTIALS}
+    volumes:
+      - '$HOME/.config/gcloud:/gcp/config:ro'
+      - '/gcp/config/logs'
+
+  dlt-gcp-pubsub:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:stable
+    container_name: dlt-gcp-pubsub
+    restart: unless-stopped
+    ports:
+      - '8085:8085'
+    environment:
+      COMPONENTS: 'google-cloud-cli-pubsub-emulator'
+    command: gcloud beta emulators pubsub start --project=${PUBSUB_PROJECT_ID}

@@ -8,6 +8,11 @@ server:
   port: ${BE_SERVER_PORT}
 
 spring:
+  cloud:
+    stream:
+      bindings:
+        receiveMessageFromTopicTwo-in-0:
+          destination: topic-two
   threads:
     virtual:
       enabled: true
