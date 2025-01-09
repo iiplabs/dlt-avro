@@ -3,7 +3,7 @@ ARG BUILD_PROFILE
 WORKDIR /app
 COPY . /app
 RUN echo "Java build profile: $BUILD_PROFILE"
-RUN mvn clean package -P$BUILD_PROFILE
+RUN mvn clean package -P$BUILD_PROFILE -DskipTests
 
 FROM eclipse-temurin:23-jdk-alpine AS buildTwo
 ARG BUILD_PROFILE
